@@ -34,9 +34,7 @@ class App extends Component {
   }
 
   checkLoginStatus = () => {
-    Axios.get("https://glacial-wave-59879.herokuapp.com/logged_in", {
-      withCredentials: true,
-    })
+    Axios.get("https://glacial-wave-59879.herokuapp.com/logged_in")
       .then((response) => {
         if (
           response.data.logged_in &&
