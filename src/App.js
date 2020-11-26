@@ -15,6 +15,7 @@ class App extends Component {
     };
 
     this.checkLoginStatus = this.checkLoginStatus.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
   }
 
@@ -24,6 +25,13 @@ class App extends Component {
       user: data.user,
     });
   };
+
+  handleLogout = () => {
+    this.setState({
+      loggedInStatus: 'NOT_LOGGED_IN',
+      user: {}
+    })
+  }
 
   checkLoginStatus = () => {
     Axios.get('http://localhost:3001/logged_in', { withCredentials: true})
@@ -66,6 +74,7 @@ class App extends Component {
                   {...props}
                   loggedInStatus={this.state.loggedInStatus}
                   handleLogin={this.handleLogin}
+                  handleLogout={this.handleLogout}
                 />
               )}
             />
