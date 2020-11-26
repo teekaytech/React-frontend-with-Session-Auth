@@ -1,4 +1,5 @@
 import React from 'react'
+import Login from './auth/Login';
 import Registration from './auth/Registration'
 
 function Home(props) {
@@ -14,6 +15,7 @@ function Home(props) {
       <h1>Home</h1>
       <h1>Status: {props.loggedInStatus}</h1>
       <Registration handleSuccessReg={handleSuccessReg} />
+      <Login handleSuccessReg={handleSuccessReg}/>
     </div>
   );
 }
