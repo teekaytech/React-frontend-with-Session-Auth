@@ -29,7 +29,14 @@ export default class Registration extends Component {
       withCredentials: true
     })
       .then(response => {
-        console.log('Registration response: ', response);
+        //if registration is successful, return data as prop to parent. Else, populate error message
+        if (response.data.status === 'created') {
+          this.props.handleSuccessReg(response.data)
+        } else {
+          this.setState({
+            registrationErrors: 'Problem with registration, try again.'
+          })
+        }
       })
       .catch(error => {
         console.log('Registration error: ', error)
