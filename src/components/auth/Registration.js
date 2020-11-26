@@ -19,28 +19,33 @@ export default class Registration extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const {email, password, password_confirmation} = this.state;
-    axios.post('http://localhost:3001/registrations', {
-      user: {
-        email: email,
-        password: password,
-        password_confirmation: password_confirmation
-      }
-    }, {
-      withCredentials: true
-    })
-      .then(response => {
+    axios
+      .post(
+        "https://glacial-wave-59879.herokuapp.com/registrations",
+        {
+          user: {
+            email: email,
+            password: password,
+            password_confirmation: password_confirmation,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
         //if registration is successful, return data as prop to parent. Else, populate error message
-        if (response.data.status === 'created') {
-          this.props.handleSuccessReg(response.data)
+        if (response.data.status === "created") {
+          this.props.handleSuccessReg(response.data);
         } else {
           this.setState({
-            registrationErrors: 'Problem with registration, try again.'
-          })
+            registrationErrors: "Problem with registration, try again.",
+          });
         }
       })
-      .catch(error => {
-        console.log('Registration error: ', error)
-      })
+      .catch((error) => {
+        console.log("Registration error: ", error);
+      });
   }
 
   handleChange = event => {

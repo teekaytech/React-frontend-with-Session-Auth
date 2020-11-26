@@ -12,14 +12,16 @@ function Home(props) {
   }
 
   const handleLogoutClick = () => {
-    Axios.delete('http://localhost:3001/logout', { withCredentials: true})
-      .then(response => {
+    Axios.delete("https://glacial-wave-59879.herokuapp.com/logout", {
+      withCredentials: true,
+    })
+      .then((response) => {
         props.handleLogout();
-        console.log(response.data)
+        console.log(response.data);
       })
-      .catch(error => {
-        console.log('Logout error: ', error.message)
-      })
+      .catch((error) => {
+        console.log("Logout error: ", error.message);
+      });
   }
 
   return (

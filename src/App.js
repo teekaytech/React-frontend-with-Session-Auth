@@ -34,8 +34,10 @@ class App extends Component {
   }
 
   checkLoginStatus = () => {
-    Axios.get('http://localhost:3001/logged_in', { withCredentials: true})
-      .then(response => {
+    Axios.get("https://glacial-wave-59879.herokuapp.com/logged_in", {
+      withCredentials: true,
+    })
+      .then((response) => {
         if (
           response.data.logged_in &&
           this.state.loggedInStatus === "NOT_LOGGED_IN"
@@ -44,17 +46,19 @@ class App extends Component {
             loggedInStatus: "LOGGED_IN",
             user: response.data.user,
           });
-        } else if (!response.data.logged_in && this.state.loggedInStatus === 'LOGGED_IN') {
+        } else if (
+          !response.data.logged_in &&
+          this.state.loggedInStatus === "LOGGED_IN"
+        ) {
           this.setState({
-            loggedInStatus: 'NOT_LOGGED_IN',
-            user: {}
-          })
+            loggedInStatus: "NOT_LOGGED_IN",
+            user: {},
+          });
         }
-
       })
-      .catch(error => {
-        console.log('validating logged_in error: ', error)
-      })
+      .catch((error) => {
+        console.log("validating logged_in error: ", error);
+      });
   };
 
   componentDidMount() {
