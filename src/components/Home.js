@@ -12,9 +12,7 @@ function Home(props) {
   }
 
   const handleLogoutClick = () => {
-    Axios.delete("https://glacial-wave-59879.herokuapp.com/logout", {
-      withCredentials: true,
-    })
+    Axios.delete("https://glacial-wave-59879.herokuapp.com/logout")
       .then((response) => {
         props.handleLogout();
         console.log(response.data);
