@@ -6,7 +6,7 @@ export default class Login extends Component {
     super(props);
 
     this.state = {
-      email: '',
+      username: '',
       password: '',
       loginErrors: ''
     }
@@ -17,26 +17,21 @@ export default class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const {email, password} = this.state;
+    const {username, password} = this.state;
     axios
-      .post(
-        "https://glacial-wave-59879.herokuapp.com/sessions",
-        {
-          user: {
-            email: email,
-            password: password,
-          },
-        },
-        { withCredentials: true }
-      )
+      .post("https://aqueous-scrubland-23856.herokuapp.com/login", {
+        username: username,
+        password: password,
+      })
       .then((response) => {
         console.log("Login response", response.data);
         //if Login is successful, return data as prop to parent. Else, populate error message
-        if (response.data.logged_in) {
+        if (response.data.status === "logged_in") {
+          localStorage.setItem("token", response.data.jwt);
           this.props.handleSuccessReg(response.data);
         } else {
           this.setState({
-            loginErrors: "Problem with Login, try again.",
+            loginErrors: response.data.failure,
           });
         }
       })
@@ -56,10 +51,10 @@ export default class Login extends Component {
       <div>
         <form onSubmit={this.handleSubmit}>
           <input
-            type="email"
-            name="email"
+            type="text"
+            name="username"
             placeholder="Enter mail here"
-            value={this.state.email}
+            value={this.state.username}
             onChange={this.handleChange}
             required
           />

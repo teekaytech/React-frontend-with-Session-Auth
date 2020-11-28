@@ -27,6 +27,7 @@ class App extends Component {
   };
 
   handleLogout = () => {
+    localStorage.removeItem('token');
     this.setState({
       loggedInStatus: 'NOT_LOGGED_IN',
       user: {}
@@ -34,20 +35,22 @@ class App extends Component {
   }
 
   checkLoginStatus = () => {
-    Axios.get("https://glacial-wave-59879.herokuapp.com/logged_in")
+    const token = localStorage.getItem("token");
+    Axios.get("https://aqueous-scrubland-23856.herokuapp.com/auto_login", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => {
         if (
-          response.data.logged_in &&
+          response.data.status === "logged_in" &&
           this.state.loggedInStatus === "NOT_LOGGED_IN"
         ) {
           this.setState({
             loggedInStatus: "LOGGED_IN",
             user: response.data.user,
           });
-        } else if (
-          !response.data.logged_in &&
-          this.state.loggedInStatus === "LOGGED_IN"
-        ) {
+        } else {
           this.setState({
             loggedInStatus: "NOT_LOGGED_IN",
             user: {},
@@ -55,7 +58,7 @@ class App extends Component {
         }
       })
       .catch((error) => {
-        console.log("validating logged_in error: ", error);
+        console.log("Login Error: ", error);
       });
   };
 
@@ -64,6 +67,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <div className="App">
         <BrowserRouter>

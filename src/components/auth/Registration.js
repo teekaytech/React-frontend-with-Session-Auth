@@ -6,9 +6,8 @@ export default class Registration extends Component {
     super(props);
 
     this.state = {
-      email: '',
+      username: '',
       password: '',
-      password_confirmation: '',
       registrationErrors: ''
     }
 
@@ -18,25 +17,20 @@ export default class Registration extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const {email, password, password_confirmation} = this.state;
+    const {username, password} = this.state;
     axios
-      .post(
-        "https://glacial-wave-59879.herokuapp.com/registrations",
-        {
-          user: {
-            email: email,
-            password: password,
-            password_confirmation: password_confirmation,
-          },
-        }
-      )
+      .post("https://aqueous-scrubland-23856.herokuapp.com/users", {
+        username: username,
+        password: password,
+      })
       .then((response) => {
-        //if registration is successful, return data as prop to parent. Else, populate error message
+        // if registration is successful, return data as prop to parent. Else, populate error message
         if (response.data.status === "created") {
-          this.props.handleSuccessReg(response.data);
+          localStorage.setItem("token", response.data.jwt);
+          this.props.handleSuccessReg(response.data.user);
         } else {
           this.setState({
-            registrationErrors: "Problem with registration, try again.",
+            registrationErrors: response.data.errors,
           });
         }
       })
@@ -56,10 +50,10 @@ export default class Registration extends Component {
       <div>
         <form onSubmit={this.handleSubmit}>
           <input
-            type="email"
-            name="email"
-            placeholder="Enter mail here"
-            value={this.state.email}
+            type="username"
+            name="username"
+            placeholder="Enter username here"
+            value={this.state.username}
             onChange={this.handleChange}
             required
           />
@@ -69,15 +63,6 @@ export default class Registration extends Component {
             name="password"
             placeholder="Enter password here"
             value={this.state.password}
-            onChange={this.handleChange}
-            required
-          />
-
-          <input
-            type="password"
-            name="password_confirmation"
-            placeholder="Confirm password here"
-            value={this.state.password_confirmation}
             onChange={this.handleChange}
             required
           />
